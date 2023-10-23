@@ -1,4 +1,5 @@
 status1= ""
+objects=[]
 function setup(){
     canvas= createCanvas(640,420);
     canvas.center();
@@ -20,6 +21,7 @@ function gotResults(error,results){
 
     else{
         console.log(results);
+        objects=results;``
     }
 }
 function preload(){
@@ -29,15 +31,16 @@ function preload(){
 
 function draw(){
     image(img,0,0,640,420);
-    stroke("#FF0000");
-    noFill();
-    rect(30,60,450,350);
-    fill("#FF0000");
-    text("Dog",45,75);
+    if(status1!=""){
+        for(i=0; i<objects.length; i++){
+            document.getElementById("status").innerHTML = "Status: Objects detected";
+            fill("red");
+            percent=floor(objects[i].confidence*100);
+            text(objects[i].label + " " + percent + "%", objects[i].x , objects[i].y);
+            noFill();
+            stroke("red");
+            rect(objects[i].x, objects[i].y, objects[i].width, objects[i].height);
 
-    stroke("#FF0000");
-    noFill();
-    rect(300,90,270,320);
-    fill("#FF0000");
-    text("Cat",320,120);
+        }
+    }
 }
